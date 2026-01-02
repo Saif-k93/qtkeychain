@@ -18,8 +18,6 @@ void KeyChainClass::readKey(const QString &key)
     m_readCredentialJob.setKey(key);
 
     QObject::connect(&m_readCredentialJob, &QKeychain::ReadPasswordJob::finished, [=]() {
-        // Only handle the error case here. Comparing against NoError is required,
-        // otherwise the function would return even when the job succeeds.
         if (m_readCredentialJob.error() != QKeychain::NoError) {
             emit error(
                     tr("Read key failed: %1").arg(qPrintable(m_readCredentialJob.errorString())));
@@ -36,8 +34,6 @@ void KeyChainClass::writeKey(const QString &key, const QString &value)
     m_writeCredentialJob.setKey(key);
 
     QObject::connect(&m_writeCredentialJob, &QKeychain::WritePasswordJob::finished, [=]() {
-        // Only handle the error case here. Comparing against NoError is required,
-        // otherwise the function would return even when the job succeeds.
         if (m_writeCredentialJob.error() != QKeychain::NoError) {
             emit error(
                     tr("Write key failed: %1").arg(qPrintable(m_writeCredentialJob.errorString())));
@@ -56,8 +52,6 @@ void KeyChainClass::deleteKey(const QString &key)
     m_deleteCredentialJob.setKey(key);
 
     QObject::connect(&m_deleteCredentialJob, &QKeychain::DeletePasswordJob::finished, [=]() {
-        // Only handle the error case here. Comparing against NoError is required,
-        // otherwise the function would return even when the job succeeds.
         if (m_deleteCredentialJob.error() != QKeychain::NoError) {
             emit error(tr("Delete key failed: %1")
                                .arg(qPrintable(m_deleteCredentialJob.errorString())));
