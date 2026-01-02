@@ -1,20 +1,15 @@
+// fix for https://github.com/frankosterfeld/qtkeychain/issues/288
+
 #include <QDebug>
 
 #include "keychainclass.h"
 
 static const QString service = "keychain.example.project.app";
 
-// fix for https://github.com/frankosterfeld/qtkeychain/issues/288
-
 KeyChainClass::KeyChainClass(QObject *parent)
     : QObject(parent)
-      // m_readCredentialJob(QLatin1String("keychain.example.project.app")),
-      // m_writeCredentialJob(QLatin1String("keychain.example.project.app")),
-      // m_deleteCredentialJob(QLatin1String("keychain.example.project.app"))
 {
-    // m_readCredentialJob.setAutoDelete(false);
-    // m_writeCredentialJob.setAutoDelete(false);
-    // m_deleteCredentialJob.setAutoDelete(false);
+    
 }
 
 void KeyChainClass::readKey(const QString &key)
@@ -33,14 +28,6 @@ void KeyChainClass::readKey(const QString &key)
                          }
                          // no delete needed, autoDelete takes care of it
                      });
-
-    // // Debugging: verify cleanup
-    // QObject::connect(readCredentialJob, &QObject::destroyed, this, [=]() {
-    //     qInfo() << "QObject deleted for read key:" << key;
-    // });
-    // QObject::connect(readCredentialJob, &QKeychain::ReadPasswordJob::destroyed, this, [=]() {
-    //     qInfo() << "readCredentialJob deleted for key:" << key;
-    // });
 
     readCredentialJob->start();
 }
@@ -62,14 +49,6 @@ void KeyChainClass::writeKey(const QString &key, const QString &value)
                          }
                      });
 
-    // // Debugging: verify cleanup
-    // QObject::connect(writeCredentialJob, &QObject::destroyed, this, [=]() {
-    //     qInfo() << "QObject deleted for write key:" << key;
-    // });
-    // QObject::connect(writeCredentialJob, &QKeychain::WritePasswordJob::destroyed, this, [=]() {
-    //     qInfo() << "writeCredentialJob deleted for key:" << key;
-    // });
-
     writeCredentialJob->start();
 }
 
@@ -88,14 +67,6 @@ void KeyChainClass::deleteKey(const QString &key)
                              emit error(tr("Delete key failed: %1").arg(qPrintable(j->errorString())));
                          }
                      });
-
-    // // Debugging: verify cleanup
-    // QObject::connect(deleteCredentialJob, &QObject::destroyed, this, [=]() {
-    //     qInfo() << "QObject deleted for delete key:" << key;
-    // });
-    // QObject::connect(deleteCredentialJob, &QKeychain::DeletePasswordJob::destroyed, this, [=]() {
-    //     qInfo() << "deleteCredentialJob deleted for key:" << key;
-    // });
 
     deleteCredentialJob->start();
 }
