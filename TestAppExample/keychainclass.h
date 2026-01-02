@@ -22,11 +22,6 @@ Q_SIGNALS:
     void error(const QString &errorText);
 
 private:
-// To handle restore failure after deletion, these jobs are created dynamically at runtime
-// rather than being persistent member variables
-    // QKeychain::ReadPasswordJob m_readCredentialJob;
-    // QKeychain::WritePasswordJob m_writeCredentialJob;
-    // QKeychain::DeletePasswordJob m_deleteCredentialJob;
 };
 
 #endif // KEYCHAINCLASS_H
